@@ -1,0 +1,61 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  # PostgreSQL
+  postgres:
+    image: postgres:15
+    container_name: tdp_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: tdp
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tdp_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Приложение
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tdp_app
+    ports:
+      - "3001:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: root
+      DB_DATABASE: tdp
+      DB_SYNCHRONIZE: false
+      DB_LOGGING: false
+      JWT_SECRET: ${JWT_SECRET:-super_secret_jwt_key}
+      JWT_EXPIRES_IN: 24h
+      CORS_ORIGIN: http://localhost:5000
+      CORS_CREDENTIALS: true
+    networks:
+      - tdp_network
+    volumes:
+      - ./uploads:/app/uploads
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+networks:
+  tdp_network:
+    driver: bridge
