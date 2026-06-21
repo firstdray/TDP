@@ -12,7 +12,7 @@ export class AuthController {
     @Post('login')
     @ApiOperation({
         summary: 'Авторизация пользователя',
-        description: 'Вход в систему для студентов и преподавателей'
+        description: 'Вход в систему для студентов и преподавателей и админа'
     })
     @ApiBody({
         schema: {
@@ -22,7 +22,7 @@ export class AuthController {
                 password: { type: 'string', example: 'password123', description: 'Пароль' },
                 userType: {
                     type: 'string',
-                    enum: ['student', 'teacher'],
+                    enum: ['student', 'teacher', 'admin'],
                     example: 'student',
                     description: 'Тип пользователя'
                 }

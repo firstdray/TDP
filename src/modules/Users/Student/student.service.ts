@@ -41,6 +41,10 @@ export class StudentService {
                 fio: createData.fio,
                 phone: createData.phone,
                 email: createData.email,
+                direction: '',
+                link: '',
+                skills: [''],
+                photo: '',
                 group: group,
             })
 
@@ -69,7 +73,7 @@ export class StudentService {
         }
     }
 
-    async updateStudent(updateData: updateUserDto, group?: GroupsEntity): Promise<getStudentDTO> {
+    async updateStudent(updateData: updateUserDto, group?: GroupsEntity) {
         try {
             const student = await this.helperService.isExist(
                 this.studentRepository,
@@ -110,13 +114,27 @@ export class StudentService {
                 student.data.group = group
             }
 
+            if (updateData.direction) {
+                student.data.direction = updateData.direction
+            }
+
+            if (updateData.link) {
+                student.data.link = updateData.link
+            }
+
+            if (updateData.skills) {
+                student.data.skills = updateData.skills
+            }
+
+            if (updateData.photo) {
+                student.data.photo = updateData.photo
+            }
+
             const saved = await this.studentRepository.save(student.data)
 
-            return {
-                login: saved.login,
-                fio: saved.fio,
-                group: student.data.group.name,
-            }
+            const {id, ...studentNotId} = saved
+
+            return studentNotId;
         } catch (err) {
             this.logger.error(err);
 

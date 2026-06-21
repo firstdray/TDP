@@ -71,4 +71,40 @@ export class updateUserDto {
     @IsBoolean({ message: 'cardReceived должен быть boolean' })
     @IsOptional()
     cardReceived?: boolean;
+
+    @ApiProperty({
+        example: true,
+        description: 'Направление развития (опционально)',
+        required: false
+    })
+    @IsOptional()
+    @IsNotEmpty()
+    direction: string
+
+    @ApiProperty({
+        example: true,
+        description: 'ссылка на внешнее портфолио (опционально)',
+        required: false
+    })
+    @IsOptional()
+    @IsNotEmpty()
+    link: string
+
+    @ApiProperty({
+        example: true,
+        description: 'обладаемые студентом навыки (опционально)',
+        required: false
+    })
+    @IsOptional()
+    @IsNotEmpty()
+    skills: string[]
+
+    @ApiProperty({
+        example: true,
+        description: 'путь к фотке студента (опционально)',
+        required: false
+    })
+    @IsOptional()
+    @IsNotEmpty()
+    photo: string
 }

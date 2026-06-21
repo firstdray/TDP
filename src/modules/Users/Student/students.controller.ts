@@ -168,6 +168,12 @@ export class StudentsController {
                 password: { type: 'string', example: 'newpassword123', description: 'Новый пароль (опционально)' },
                 phone: { type: 'string', example: '+79876543210', description: 'Телефон (опционально)' },
                 email: { type: 'string', example: 'new@example.com', description: 'Email (опционально)' },
+                direction: {type: 'string', example: 'Backend development', description: "Направление (опционально)"},
+                link: { type: 'string', example: 'https://github.com', description: 'Ссылка на внешнее портфолио (опционально)' },
+                skills: { type: 'array', example: ['Javascript', 'NodeJS'], description: 'Навыки студеннта (опционально)' },
+                photo: {type: 'string', example: "../../image/1.png", description: 'Путь к фотке студента (опционально)'},
+                card: {type: 'string', example: 'JSON', description: 'стиль NFC карты (опционально)'},
+                cardReceived: {type: 'boolean', example: true, description: 'получил ли студент карту (опционально)'},
                 group: { type: 'string', example: 'ИСиП-42', description: 'Новая группа (опционально)' }
             },
             required: ['login']

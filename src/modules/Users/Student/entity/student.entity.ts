@@ -6,7 +6,6 @@ import {
     JoinColumn,
     ManyToOne,
     OneToMany,
-    OneToOne,
     PrimaryGeneratedColumn
 } from "typeorm";
 import {GroupsEntity} from "../../../department/entity/groups.entity";
@@ -32,6 +31,18 @@ export class StudentEntity extends BaseEntity {
 
     @Column()
     email: string
+
+    @Column()
+    direction: string
+
+    @Column()
+    link: string
+
+    @Column({ type: 'text', array: true, default: [] })
+    skills: string[]
+
+    @Column()
+    photo: string
 
     @Column({ default: ''})
     card: string
