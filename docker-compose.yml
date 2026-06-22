@@ -40,12 +40,9 @@ services:
       DB_USERNAME: postgres
       DB_PASSWORD: root
       DB_DATABASE: tdp
-      DB_SYNCHRONIZE: false
+      DB_SYNCHRONIZE: "false"
       DB_LOGGING: false
       JWT_SECRET: ${JWT_SECRET:-super_secret_jwt_key}
-      JWT_EXPIRES_IN: 24h
-      CORS_ORIGIN: http://localhost:3001
-      CORS_CREDENTIALS: true
     networks:
       - tdp_network
     volumes:
