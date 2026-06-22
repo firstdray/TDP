@@ -88,7 +88,7 @@ export class PortfolioService {
             }
 
             if (updateData.description) {
-                exPortfolio.data.pathFile = updateData.description
+                exPortfolio.data.description = updateData.description
             }
 
             if (updateData.stack) {

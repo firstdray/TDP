@@ -7,7 +7,6 @@ import { Roles } from "../Auth/decorators/roles.decorators";
 
 @ApiTags("Department")
 @Controller('department')
-@UseGuards(AuthGuard('jwt'), RolesGuard)
 export class DepartmentController {
     constructor(
         private readonly departmentService: DepartmentService,
@@ -38,6 +37,7 @@ export class DepartmentController {
     @ApiResponse({ status: 401, description: 'Не авторизован' })
     @ApiResponse({ status: 403, description: 'Доступ запрещен (только admin)' })
     @ApiResponse({ status: 409, description: 'Отдел с таким названием уже существует' })
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     @Roles('admin')
     async createDepartment(@Body('name') name: string) {
         return this.departmentService.createDepartment(name);
@@ -82,6 +82,7 @@ export class DepartmentController {
     @ApiResponse({ status: 403, description: 'Доступ запрещен (только admin)' })
     @ApiResponse({ status: 404, description: 'Отдел не найден' })
     @Roles('admin')
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     async addedGroup(@Body() body: { department: string; groups: string[] }) {
         return this.departmentService.addGroups(body.department, body.groups);
     }
@@ -133,6 +134,7 @@ export class DepartmentController {
     @ApiResponse({ status: 401, description: 'Не авторизован' })
     @ApiResponse({ status: 403, description: 'Доступ запрещен (только admin)' })
     @ApiResponse({ status: 404, description: 'Отдел не найден' })
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     @Roles('admin')
     async deleteDepartment(@Param('name') nameDepartment: string) {
         return this.departmentService.deleteDepartment(nameDepartment);
@@ -158,6 +160,7 @@ export class DepartmentController {
     @ApiResponse({ status: 401, description: 'Не авторизован' })
     @ApiResponse({ status: 403, description: 'Доступ запрещен (только admin)' })
     @ApiResponse({ status: 404, description: 'Группа не найдена' })
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     @Roles('admin')
     async deleteGroup(@Param('name') nameGroup: string) {
         return this.departmentService.deleteGroup(nameGroup);

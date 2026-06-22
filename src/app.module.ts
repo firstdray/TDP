@@ -5,7 +5,7 @@ import {PortfolioModule} from "./modules/portfolio/portfolio.module";
 import {AuthModule} from "./modules/Auth/auth.module";
 import {DepartmentModule} from "./modules/department/department.module";
 import {HelperModule} from "./modules/Helper/helper.module";
-import {ConfigModule} from "@nestjs/config";
+import {ConfigModule, ConfigService} from "@nestjs/config";
 
 
 @Module({
@@ -13,15 +13,20 @@ import {ConfigModule} from "@nestjs/config";
         ConfigModule.forRoot({
             isGlobal: true,
         }),
-        TypeOrmModule.forRoot({
-            type: "postgres",
-            host: "localhost",
-            port: 5432,
-            username: "postgres",
-            password: "root",
-            database: "tdp",
-            autoLoadEntities: true,
-            synchronize: true,
+        TypeOrmModule.forRootAsync({
+            imports: [ConfigModule],
+            useFactory: (configService: ConfigService) => ({
+                type: 'postgres',
+                host: configService.get<string>('DB_HOST') || 'postgres',
+                port: configService.get<number>('DB_PORT') || 5432,
+                username: configService.get<string>('DB_USERNAME') || 'postgres',
+                password: configService.get<string>('DB_PASSWORD') || 'root',
+                database: configService.get<string>('DB_DATABASE') || 'tdp',
+                autoLoadEntities: true,
+                synchronize: configService.get<boolean>('DB_SYNCHRONIZE') || true,
+                logging: configService.get<boolean>('DB_LOGGING') || true,
+            }),
+            inject: [ConfigService],
         }),
         AuthModule,
         DepartmentModule,
