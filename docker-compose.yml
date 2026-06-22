@@ -41,7 +41,7 @@ services:
       DB_PASSWORD: root
       DB_DATABASE: tdp
       DB_SYNCHRONIZE: "false"
-      DB_LOGGING: false
+      DB_LOGGING: "false"
       JWT_SECRET: ${JWT_SECRET:-super_secret_jwt_key}
     networks:
       - tdp_network
